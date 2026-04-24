@@ -569,6 +569,16 @@
         </div>
 
         <div id="admin-dashboard-panel" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+            <h3 class="font-bold text-xl text-gray-900 flex items-center gap-2">
+              <i data-lucide="layout-dashboard" class="text-medical"></i> Dashboard Overview
+            </h3>
+            <button onclick="logoutAdmin()"
+              class="bg-gray-100 hover:bg-red-50 text-gray-600 hover:text-red-600 px-4 py-2 rounded-lg transition flex items-center gap-2 font-medium">
+              <i data-lucide="log-out" class="w-4 h-4"></i> Logout
+            </button>
+          </div>
+
           <div class="flex flex-col lg:flex-row gap-8">
             <div class="flex-1">
               <h3 class="font-bold text-lg mb-4">Add New Product</h3>
@@ -1634,6 +1644,25 @@
       const f = featureStickersList.find(x => x.icon === icon);
       if (f) f.text = text;
       updateLivePreview();
+    }
+
+    function logoutAdmin() {
+      adminToken = null;
+      sessionStorage.removeItem('adminToken');
+
+      // Reset UI
+      document.getElementById('admin-dashboard-panel').classList.add('hidden');
+      document.getElementById('admin-login-panel').classList.remove('hidden');
+
+      // Clear password input
+      const passInput = document.getElementById('admin-pass-input');
+      if (passInput) passInput.value = '';
+
+      showToast("Logged out successfully");
+
+      // Scroll to top
+      window.scrollTo(0, 0);
+      lucide.createIcons();
     }
 
     function renderFeatureStickers() {
