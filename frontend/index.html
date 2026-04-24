@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Companion | A Nurse From The Future</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            medical: {
+              light: '#e0f2fe',
+              DEFAULT: '#0ea5e9',
+              dark: '#0284c7',
+            },
+            accent: {
+              light: '#fce7f3',
+              DEFAULT: '#ec4899',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(var(--rot, 0deg));
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(calc(var(--rot, 0deg) + 5deg));
+      }
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Hide scrollbar for a cleaner look on categories */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#home" class="flex items-center gap-2 text-medical-dark font-bold text-xl tracking-tight">
+        <i data-lucide="stethoscope" class="text-accent"></i>
+        COMPANION
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="#shop" class="text-gray-600 hover:text-medical font-medium text-sm sm:text-base mr-1">Shop All</a>
+        <a href="#cart" class="relative text-gray-600 hover:text-medical transition">
+          <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+          <span id="cart-badge"
+            class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Toast Notification -->
+  <div id="toast"
+    class="fixed top-20 right-4 bg-gray-900 text-white px-4 py-3 rounded-lg shadow-xl z-50 transform transition-transform duration-300 translate-x-full flex items-center gap-2">
+    <i data-lucide="check-circle" class="text-green-400"></i>
+    <span id="toast-msg">Item added to cart</span>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow">
+
+    <!-- 1. HOME VIEW (LANDING PAGE) -->
+    <div id="view-home" class="view-section">
+      <!-- Hero -->
+      <header class="bg-medical-light pt-12 pb-32 md:pt-16 md:pb-40 px-4 text-center relative overflow-hidden">
+        <!-- Floating Characters background layer -->
+        <div class="absolute inset-0 max-w-7xl mx-auto pointer-events-none z-0">
+          <img
+            src="https://res.cloudinary.com/dpotignke/image/upload/q_auto,f_auto,w_300/companion/assets/spider-man.png"
+            class="absolute bottom-2 left-6 md:left-24 lg:left-40 w-36 md:w-48 animate-float opacity-90 drop-shadow-xl"
+            style="--rot: 5deg; animation-delay: 2.2s;">
+
+          <!-- Bottom Right -->
+          <img src="https://res.cloudinary.com/dpotignke/image/upload/q_auto,f_auto,w_300/companion/assets/stitch.png"
+            class="absolute bottom-4 right-6 md:right-24 lg:right-40 w-32 md:w-40 animate-float opacity-90 drop-shadow-lg"
+            style="--rot: -8deg; animation-delay: 0.8s;">
+        </div>
+
+        <div class="max-w-3xl mx-auto relative z-10 p-10 md:py-20">
+          <span class="text-accent font-bold tracking-wider uppercase text-sm mb-4 block">Welcome to the shift</span>
+          <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">A Nurse From The <span
+              class="text-medical">Future</span>.</h1>
+          <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-medium">Durable, pocket-sized, and beautifully
+            designed medical essentials for your daily hospital shifts.</p>
+          <a href="#shop"
+            class="inline-flex items-center gap-2 bg-medical hover:bg-medical-dark text-white font-bold py-4 px-8 rounded-full shadow-lg transition transform hover:-translate-y-1 text-lg">
+            Shop Collection <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </header>
+
+      <!-- Our Story Section -->
+      <section class="py-24 bg-white relative">
+        <!-- Asset removed -->
+
+
+        <div class="max-w-5xl mx-auto px-4 text-center relative z-20">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900 tracking-tight">Our Story</h2>
+          <div class="w-24 h-1.5 bg-medical mx-auto mb-10 rounded-full"></div>
+          <p class="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-3xl mx-auto font-medium">
+            We know exactly what a 12-hour shift feels like. The endless rounds, the unreadable notes, the pens that
+            always go missing. That's why we created <strong class="text-medical-dark">Companion</strong>.<br><br>
+            We design tools meant to survive the chaotic reality of medical rotations while keeping things a little bit
+            fun and playfully personalized.
+          </p>
+        </div>
+      </section>
+
+      <!-- Bundles & Packages Section -->
+      <section id="bundles-section" class="py-16 bg-white hidden border-t border-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 flex items-center gap-2"><i data-lucide="gift"></i> Bundles &
+              Packages</h2>
+            <p class="text-gray-500 mt-2">Bundle your shift and save on essentials.</p>
+          </div>
+          <div id="bundles-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured Products -->
+      <section class="py-16 bg-gray-50 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="mb-12 text-center">
+            <h2 class="text-4xl font-extrabold text-gray-900 leading-tight">Featured Gear</h2>
+            <p class="text-gray-500 mt-2 text-lg">Essentials handpicked for healthcare heroes.</p>
+          </div>
+
+          <div id="featured-products-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Injected via JS -->
+            <div class="text-gray-400 py-8 col-span-full">Loading featured products...</div>
+          </div>
+
+          <div class="mt-12 text-center">
+            <a href="#shop"
+              class="inline-flex items-center gap-3 bg-medical text-white font-bold py-4 px-10 rounded-2xl hover:bg-medical-dark transition transform hover:scale-105 active:scale-95 shadow-xl shadow-medical/20 group">
+              View All Products
+              <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="py-16 bg-white border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <div class="p-6">
+            <div
+              class="bg-medical-light w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 transition transform hover:scale-110">
+              <i data-lucide="droplets" class="text-medical w-8 h-8"></i>
+            </div>
+            <h3 class="font-bold text-xl mb-2 text-gray-900">Waterproof Notes</h3>
+            <p class="text-gray-500">Survives spills and tough shifts without a single smudge on your vital notes.</p>
+          </div>
+          <div class="p-6">
+            <div
+              class="bg-accent-light w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 transition transform hover:scale-110 drop-shadow-sm">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" class="text-accent"
+                xmlns="http://www.w3.org/2000/svg">
+                <!-- Notebook -->
+                <rect x="7" y="2" width="10" height="12" rx="1.5" fill="currentColor" fill-opacity="0.2"
+                  stroke="currentColor" stroke-width="1.8" />
+                <path d="M10 5.5H14M10 8.5H14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <!-- Pocket -->
+                <path d="M4 10.5H20V15C20 19.418 16.418 23 12 23C7.58172 23 4 19.418 4 15V10.5Z" fill="white"
+                  stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                <!-- Stitch/Detail -->
+                <path d="M7 14L17 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-dasharray="2 4" />
+              </svg>
+            </div>
+            <h3 class="font-bold text-xl mb-2 text-gray-900">Pocket-Sized</h3>
+            <p class="text-gray-500">Designed perfectly to fit in your scrubs so your gear is always right where you
+              need it.</p>
+          </div>
+          <div class="p-6">
+            <div
+              class="bg-medical-light w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 transition transform hover:scale-110">
+              <i data-lucide="smile" class="text-medical w-8 h-8"></i>
+            </div>
+            <h3 class="font-bold text-xl mb-2 text-gray-900">Fun & Personalized</h3>
+            <p class="text-gray-500">Cute ID holders and colorful accessories to brighten your day and spark joy on the
+              ward.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lifestyle/Marketing Spread -->
+      <section class="py-24 bg-gray-50 overflow-hidden relative border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="text-center mb-10 md:mb-24 px-4 sm:px-6">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight leading-tight">
+              Crafted for Healthcare
+              Heroes</h2>
+            <p class="text-base sm:text-xl text-gray-500">Every piece is designed to bring joy and color to your shift.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-32">
+            <div class="order-2 md:order-1 relative transform transition hover:scale-[1.02] duration-700">
+              <div class="absolute inset-0 bg-accent rounded-[2rem] rotate-3 opacity-20 transform scale-105"></div>
+              <img
+                src="https://res.cloudinary.com/dpotignke/image/upload/q_auto,f_auto,w_400/companion/assets/id-holder.png"
+                class="relative z-10 w-full rounded-[2rem] shadow-2xl object-cover min-h-[300px] transform -rotate-1 hover:rotate-0 transition duration-500"
+                loading="lazy">
+            </div>
+            <div class="order-1 md:order-2 md:pl-10">
+              <div class="inline-block px-4 py-2 bg-accent-light text-accent rounded-full font-bold text-sm mb-5"><i
+                  data-lucide="smile" class="w-4 h-4 inline pb-0.5"></i> Stand Out</div>
+              <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">More than just an ID holder.
+              </h3>
+              <p class="text-gray-600 text-lg leading-relaxed">Your badge shouldn't be boring. Express your personality
+                securely and with a pop of style. Our fun characters are instant conversation starters on the wards.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-32">
+            <div class="md:pr-10">
+              <div class="inline-block px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-bold text-sm mb-5"><i
+                  data-lucide="shield" class="w-4 h-4 inline pb-0.5"></i> Stay Sharp</div>
+              <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">Essential Guidance Cards</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">Critical reference information right alongside your
+                badge. From Glasgow Coma Scales to Lab Values, designed specifically to handle the hustle of the wards.
+              </p>
+            </div>
+            <div class="relative transform transition hover:scale-[1.02] duration-700">
+              <div class="absolute inset-0 bg-blue-500 rounded-[2rem] -rotate-3 opacity-20 transform scale-105"></div>
+              <img
+                src="https://res.cloudinary.com/dpotignke/image/upload/q_auto,f_auto,w_400/companion/assets/guidance-cards.png"
+                class="relative z-10 w-full rounded-[2rem] shadow-2xl object-cover min-h-[300px] transform rotate-2 hover:rotate-0 transition duration-500"
+                loading="lazy">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center mb-32">
+            <div class="order-2 md:order-1 relative transform transition hover:scale-[1.02] duration-700">
+              <div class="absolute inset-0 bg-medical rounded-[2rem] rotate-2 opacity-20 transform scale-105"></div>
+              <img
+                src="https://res.cloudinary.com/dpotignke/image/upload/q_auto,f_auto,w_400/companion/assets/notebook.png"
+                class="relative z-10 w-full rounded-[2rem] shadow-2xl object-cover min-h-[300px] transform -rotate-2 hover:rotate-0 transition duration-500"
+                loading="lazy">
+            </div>
+            <div class="order-1 md:order-2 md:pl-10">
+              <div
+                class="inline-block px-4 py-2 bg-medical-light text-medical-dark rounded-full font-bold text-sm mb-5">
+                <i data-lucide="droplets" class="w-4 h-4 inline pb-0.5"></i> Never Forget
+              </div>
+              <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">Your Waterproof Assistant</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">Medical notes that survive messy spills and fit
+                universally into all scrub pockets. Because vital information should never wash away.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
+            <div class="md:pr-10">
+              <div class="inline-block px-4 py-2 bg-emerald-100 text-emerald-600 rounded-full font-bold text-sm mb-5"><i
+                  data-lucide="activity" class="w-4 h-4 inline pb-0.5"></i> Take a Break</div>
+              <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">Fun & Entertaining</h3>
+              <p class="text-gray-600 text-lg leading-relaxed">We create medical-themed card games because you deserve a
+                laugh after a long, exhausting shift!</p>
+            </div>
+            <div class="relative transform transform transition hover:scale-[1.02] duration-700">
+              <div class="absolute inset-0 bg-emerald-400 rounded-[2rem] -rotate-2 opacity-20 transform scale-105">
+              </div>
+              <img
+                src="https://res.cloudinary.com/dpotignke/image/upload/q_auto,f_auto,w_400/companion/assets/card-game.png"
+                class="relative z-10 w-full rounded-[2rem] shadow-2xl object-cover min-h-[300px] transform rotate-1 hover:rotate-0 transition duration-500"
+                loading="lazy">
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 2. SHOP VIEW (CATEGORIES & VARIANTS) -->
+    <div id="view-shop" class="view-section">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+
+        <!-- Category Grid (Default View) -->
+        <div id="shop-categories-view">
+          <h2 class="text-3xl font-bold mb-2">Our Products</h2>
+          <p class="text-gray-500 mb-8">Select a category to explore its variants.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="categories-grid-container">
+            <!-- Dynamically populated from /categories -->
+            <div class="col-span-full text-center py-10 text-gray-500">
+              <i data-lucide="loader-2" class="w-8 h-8 animate-spin mx-auto text-medical mb-2"></i>
+              <p>Loading categories...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product List View (Hidden originally) -->
+        <div id="shop-products-view" class="hidden">
+          <button onclick="closeCategory()"
+            class="inline-flex items-center gap-2 text-gray-500 hover:text-medical transition mb-6 font-medium">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Categories
+          </button>
+
+          <h2 id="current-category-title" class="text-3xl font-bold mb-8">Category Name</h2>
+
+          <!-- Products Grid -->
+          <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <!-- Products injected via JS -->
+            <div class="col-span-full text-center py-12" id="loading-products">
+              <i data-lucide="loader-2" class="w-8 h-8 animate-spin mx-auto text-medical mb-2"></i>
+              <p class="text-gray-500">Loading variants...</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3. SINGLE PRODUCT VIEW -->
+    <div id="view-product" class="view-section">
+      <div class="max-w-5xl mx-auto px-4 py-8">
+        <button onclick="goBackToShop()"
+          class="inline-flex items-center gap-2 text-gray-500 hover:text-medical transition mb-6 font-medium">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Back
+        </button>
+        <div id="single-product-container">
+          <!-- Injected via JS -->
+          <div class="text-center py-12">
+            <i data-lucide="loader-2" class="w-8 h-8 animate-spin mx-auto text-medical mb-2"></i>
+            <p class="text-gray-500">Loading details...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. CART & CHECKOUT VIEW -->
+    <div id="view-cart" class="view-section">
+      <div class="max-w-4xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold mb-6">Your Cart</h2>
+
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- Cart Items -->
+          <div class="md:w-3/5">
+            <div id="cart-items-container" class="space-y-4">
+              <!-- Items injected via JS -->
+            </div>
+            <div id="proceed-checkout-btn-contain" class="mt-8 hidden">
+              <button
+                onclick="document.getElementById('checkout-panel').classList.remove('hidden'); this.parentElement.classList.add('hidden');"
+                class="w-full bg-medical hover:bg-medical-dark text-white font-bold py-4 rounded-xl shadow-md transition text-lg flex items-center justify-center gap-2">
+                Proceed to Checkout <i data-lucide="arrow-right" class="w-5 h-5"></i>
+              </button>
+            </div>
+            <div id="empty-cart-msg"
+              class="text-center py-12 hidden bg-white rounded-xl shadow-sm border border-gray-100">
+              <i data-lucide="shopping-cart" class="w-12 h-12 text-gray-300 mx-auto mb-3"></i>
+              <p class="text-gray-500 mb-4">Your cart is empty.</p>
+              <a href="#shop" class="text-medical font-medium hover:underline">Go back to shop</a>
+            </div>
+          </div>
+
+          <!-- Checkout Form -->
+          <div class="md:w-2/5" id="checkout-panel">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <h3 class="text-lg font-bold mb-4 border-b pb-2">Order Summary</h3>
+              <div class="flex justify-between mb-4 font-bold text-lg">
+                <span>Total:</span>
+                <span id="cart-total" class="text-medical">0 EGP</span>
+              </div>
+
+              <form id="checkout-form" action="https://formsubmit.co/companionnurse@gmail.com" method="POST"
+                class="space-y-4">
+                <!-- FormSubmit Configuration -->
+                <input type="hidden" name="_subject" value="New Companion Order!">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" id="form-next-url" name="_next" value="">
+                <input type="hidden" id="form-order-items" name="Order_Details" value="">
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                  <input type="text" id="order-name" name="name" required
+                    class="w-full px-3 py-2 border rounded-lg focus:ring-medical focus:border-medical outline-none">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <input type="tel" id="order-phone" name="phone" required
+                    class="w-full px-3 py-2 border rounded-lg focus:ring-medical focus:border-medical outline-none">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
+                  <input type="tel" id="order-whatsapp" name="whatsapp" required
+                    class="w-full px-3 py-2 border rounded-lg focus:ring-medical focus:border-medical outline-none">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Address / Governorate</label>
+                  <textarea id="order-address" name="address" required rows="2"
+                    class="w-full px-3 py-2 border rounded-lg focus:ring-medical focus:border-medical outline-none"></textarea>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                  <select id="order-payment" name="payment_method"
+                    class="w-full px-3 py-2 border rounded-lg focus:ring-medical focus:border-medical outline-none bg-white">
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Vodafone Cash">Vodafone Cash</option>
+                  </select>
+                </div>
+                <button type="submit" id="submit-order-btn"
+                  class="w-full bg-medical hover:bg-medical-dark text-white font-bold py-3 rounded-lg shadow-md transition flex justify-center items-center gap-2">
+                  <i data-lucide="check-circle" class="w-5 h-5"></i> Place Order
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="order-success"
+          class="hidden text-center py-16 bg-white rounded-xl shadow-sm mt-8 border border-gray-100">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="check" class="text-green-500 w-8 h-8"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 mb-2">Order Received!</h2>
+          <p class="text-gray-600 mb-6">Thank you for your order. We will contact you on WhatsApp shortly to confirm
+            everything.</p>
+          <a href="#home"
+            class="inline-block bg-gray-900 text-white px-6 py-2 rounded-full hover:bg-gray-800 transition">Back to
+            Home</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ADMIN VIEW (Hidden by default) -->
+    <div id="view-admin" class="view-section">
+      <div class="max-w-5xl mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold mb-6 text-red-600 border-b pb-2 flex items-center gap-2">
+          <i data-lucide="lock"></i> Admin Dashboard
+        </h2>
+
+        <div id="admin-login-panel" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+          <p class="mb-4 text-gray-600">Enter administrator password to access product management.</p>
+          <input type="password" id="admin-pass-input" placeholder="Password"
+            class="w-full px-3 py-2 border rounded-lg mb-3">
+          <button onclick="checkAdmin()"
+            class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition">Login</button>
+        </div>
+
+        <div id="admin-dashboard-panel" class="hidden bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div class="flex flex-col lg:flex-row gap-8">
+            <div class="flex-1">
+              <h3 class="font-bold text-lg mb-4">Add New Product</h3>
+              <form id="admin-product-form" class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium mb-1">Product Name</label>
+                  <input type="text" id="add-name" required onkeyup="updateLivePreview()"
+                    class="w-full px-3 py-2 border rounded-lg bg-gray-50 focus:ring-medical focus:border-medical outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Category</label>
+                    <input list="category-options" id="add-cat" required
+                      onchange="updateLivePreview(); checkCategoryForPackages();"
+                      onkeyup="updateLivePreview(); checkCategoryForPackages();" placeholder="Type or select..."
+                      class="w-full px-3 py-2 border rounded-lg bg-gray-50 focus:ring-medical focus:border-medical outline-none">
+                    <datalist id="category-options">
+                      <option value="id_holder">
+                      <option value="pen_holder">
+                      <option value="card">
+                      <option value="note">
+                    </datalist>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Price (EGP)</label>
+                    <input type="number" id="add-price" required min="0" onkeyup="updateLivePreview()"
+                      onchange="updateLivePreview()"
+                      class="w-full px-3 py-2 border rounded-lg bg-gray-50 focus:ring-medical focus:border-medical outline-none">
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-2">
+                  <div class="flex items-center">
+                    <input type="checkbox" id="add-available" checked onchange="updateLivePreview()"
+                      class="w-4 h-4 text-medical bg-gray-100 border-gray-300 rounded focus:ring-medical">
+                    <label for="add-available" class="ml-2 text-sm font-medium text-gray-900">Available</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input type="checkbox" id="add-featured" onchange="updateLivePreview()"
+                      class="w-4 h-4 text-orange-500 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                    <label for="add-featured" class="ml-2 text-sm font-medium text-gray-900 flex items-center gap-1">
+                      <i data-lucide="star" class="w-3 h-3 text-orange-500 fill-orange-500"></i> Featured
+                    </label>
+                  </div>
+                  <div id="package-featured-wrapper" class="flex items-center hidden">
+                    <input type="checkbox" id="add-package-featured" onchange="updateLivePreview()"
+                      class="w-4 h-4 text-medical bg-gray-100 border-gray-300 rounded focus:ring-medical">
+                    <label for="add-package-featured"
+                      class="ml-2 text-sm font-medium text-gray-900 flex items-center gap-1">
+                      <i data-lucide="gift" class="w-3 h-3 text-medical"></i> Show in Bundles & Packages
+                    </label>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Product Images <span
+                      class="text-gray-400 text-xs">(select multiple — uploads instantly)</span></label>
+                  <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 bg-gray-50">
+                    <label for="add-img-files" class="block w-full cursor-pointer text-center py-3">
+                      <i data-lucide="image-plus" class="w-8 h-8 mx-auto text-gray-400 mb-2"></i>
+                      <span class="text-sm text-gray-500">Click to select images</span>
+                    </label>
+                    <input type="file" id="add-img-files" accept="image/*" multiple class="hidden"
+                      onchange="stageImages(this.files)">
+                    <div id="img-uploading-status"
+                      class="hidden text-xs text-center text-medical mt-2 flex items-center justify-center gap-1"><i
+                        data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> Uploading...</div>
+                    <div id="img-thumbnails" class="flex flex-wrap gap-2 mt-3"></div>
+                  </div>
+                  <input type="hidden" id="add-img-primary">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Description (supports newlines)</label>
+                  <textarea id="add-desc" rows="3" placeholder="Waterproof...&#10;Compact...&#10;High quality..."
+                    onkeyup="updateLivePreview()"
+                    class="w-full px-3 py-2 border rounded-lg bg-gray-50 focus:ring-medical focus:border-medical outline-none"></textarea>
+                </div>
+
+                <div class="border-t border-gray-100 pt-4 mt-4">
+                  <div class="mb-2">
+                    <label class="block text-sm font-medium text-medical-dark flex items-center gap-1"><i
+                        data-lucide="sticker" class="w-4 h-4"></i> Feature Stickers</label>
+                  </div>
+                  <div id="feature-stickers-container">
+                    <div class="text-xs text-gray-400 italic">Select an icon above to add a sticker. Max 6.</div>
+                  </div>
+                </div>
+
+                <div class="flex gap-2 w-full mt-4">
+                  <button type="submit" id="add-product-btn"
+                    class="flex-1 bg-medical hover:bg-medical-dark transition text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2">
+                    <i data-lucide="save" class="w-5 h-5"></i> <span id="add-product-btn-text">Save Product</span>
+                  </button>
+                  <button type="button" id="cancel-edit-btn" onclick="cancelEditAdminProduct()"
+                    class="hidden bg-gray-200 hover:bg-gray-300 transition text-gray-800 font-bold py-3 px-4 rounded-lg flex justify-center items-center">
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="lg:w-72">
+              <h3 class="font-bold text-lg mb-4 text-gray-400">Live Preview</h3>
+              <div id="live-preview-card"
+                class="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-300 min-h-[300px] flex items-center justify-center text-gray-400 text-sm">
+                Start typing to preview...
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-gray-100 pt-8">
+
+
+            <!-- Discount Manager -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h3 class="font-bold text-lg mb-4 text-orange-500 flex items-center gap-2">
+                <i data-lucide="tag" class="w-5 h-5"></i> Apply Discounts
+              </h3>
+              <form id="admin-discount-form" class="space-y-4" onsubmit="event.preventDefault(); applyDiscountBatch();">
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Apply To</label>
+                    <select id="discount-target-type" onchange="renderDiscountCheckboxes()"
+                      class="w-full px-3 py-2 border rounded-lg bg-gray-50 text-sm outline-none">
+                      <option value="category">Whole Category</option>
+                      <option value="product">Specific Product (ID)</option>
+                      <option value="all">All Products</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">Target ID / Slug</label>
+                    <div class="relative">
+                      <button type="button" id="discount-target-toggle" onclick="toggleDiscountDropdown()"
+                        class="w-full px-3 py-2 border rounded-lg bg-gray-50 text-sm text-left flex justify-between items-center outline-none focus:border-medical min-h-[38px]">
+                        <span id="discount-selected-text" class="truncate">Select targets...</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+                      </button>
+                      <div id="discount-dropdown"
+                        class="absolute z-50 mt-1 w-full bg-white border rounded-lg shadow-xl hidden max-h-60 overflow-y-auto p-2">
+                        <div class="border-b pb-2 mb-2">
+                          <label
+                            class="flex items-center gap-2 px-2 py-1 hover:bg-gray-50 rounded cursor-pointer font-bold text-xs uppercase text-gray-500 tracking-wider">
+                            <input type="checkbox" id="discount-select-all"
+                              class="rounded border-gray-300 text-medical focus:ring-medical"
+                              onchange="toggleSelectAllDiscounts(this.checked)">
+                            <span>Select All</span>
+                          </label>
+                        </div>
+                        <div id="discount-checkbox-list" class="space-y-1">
+                          <!-- Injected via JS -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-1">Discount % (Set 0 to remove)</label>
+                  <input type="number" id="discount-percentage" required min="0" max="100"
+                    class="w-full px-3 py-2 border rounded-lg bg-gray-50 text-sm outline-none">
+                </div>
+                <button type="submit"
+                  class="w-full bg-orange-500 text-white font-bold py-2 rounded-lg hover:bg-orange-600 transition text-sm">Apply
+                  Discount</button>
+              </form>
+            </div>
+          </div>
+
+          <div class="mt-12 border-t border-gray-100 pt-8">
+            <div class="flex flex-col md:flex-row justify-between md:items-center mb-6 gap-4">
+              <h3 class="font-bold text-xl text-gray-800">Manage Products <span id="admin-p-count"
+                  class="text-sm font-normal text-gray-400 ml-2"></span></h3>
+              <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <div class="relative w-full sm:w-48">
+                  <select id="admin-category-filter" onchange="renderAdminProductList()"
+                    class="w-full pl-3 pr-8 py-2 border rounded-lg bg-white shadow-sm focus:ring-medical focus:border-medical outline-none text-sm transition appearance-none cursor-pointer">
+                    <option value="">All Categories</option>
+                    <option value="id_holder">ID Holders</option>
+                    <option value="pen_holder">Pen Holders</option>
+                    <option value="card">Cards</option>
+                    <option value="note">Notes</option>
+                    <option value="card_game">Card Games</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="relative w-full sm:w-64">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+                  </div>
+                  <input type="text" id="admin-search-input" onkeyup="renderAdminProductList()"
+                    placeholder="Search products..."
+                    class="w-full pl-9 pr-3 py-2 border rounded-lg bg-white shadow-sm focus:ring-medical focus:border-medical outline-none text-sm transition">
+                </div>
+              </div>
+            </div>
+            <div id="admin-product-list" class="flex flex-col gap-8">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ORDER SUCCESS VIEW -->
+    <div id="view-order-success" class="view-section py-20 text-center">
+      <div class="max-w-md mx-auto bg-white p-10 rounded-3xl shadow-xl border border-medical-light">
+        <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i data-lucide="check-circle" class="w-12 h-12"></i>
+        </div>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-4">Order Placed Successfully!</h2>
+        <p class="text-gray-600 mb-8 leading-relaxed">It will be delivered within <span class="font-bold text-medical">3
+            days</span>. We'll contact you soon to confirm.</p>
+        <a href="#shop"
+          class="inline-block bg-medical text-white font-bold py-3 px-8 rounded-xl hover:bg-medical-dark transition transform hover:scale-105 active:scale-95 shadow-lg shadow-medical/20">
+          Continue Shopping
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8 text-center mt-auto">
+    <div class="max-w-6xl mx-auto px-4">
+      <h3 class="font-bold text-xl mb-2 flex items-center justify-center gap-2">
+        <i data-lucide="stethoscope" class="w-5 h-5"></i> COMPANION
+      </h3>
+      <p class="text-gray-400 text-sm mb-4">A Nurse From The Future. Made with love for healthcare heroes.</p>
+      <p class="text-gray-500 text-xs">&copy; 2026 Companion. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Core Logic -->
+  <script>
+    // --- CONFIGURATION ---
+    // Helper for safe JSON parsing of product features
+    function parseFeatures(f) {
+      if (!f) return [];
+      if (typeof f === 'string') {
+        try { return JSON.parse(f); } catch (e) { return []; }
+      }
+      return f;
+    }
+
+    // Performance Helper: Optimize Cloudinary images on the fly
+    function getOptimizedImageUrl(url, width = 600) {
+      if (!url || !url.includes('cloudinary.com')) return url;
+      // Inject q_auto (quality) and f_auto (format) for best performance
+      return url.replace('/upload/', `/upload/q_auto,f_auto,w_${width}/`);
+    }
+
+    // Set to your deployed Render URL in production
+    // This automatically switches between local and production based on the URL
+    const API_BASE_URL = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost"
+      ? "http://127.0.0.1:8000"
+      : "https://your-api-onrender-url.com"; // <-- REPLACE THIS with your actual Render URL after deployment
+
+    let products = [];
+    let categoriesList = [];
+    let cart = JSON.parse(localStorage.getItem('companion_cart')) || [];
+    let adminToken = sessionStorage.getItem('adminToken') || "";
+    let currentShopCategory = null; // Track what we're viewing
+
+    // --- INIT & ROUTING ---
+    async function initApp() {
+      lucide.createIcons();
+      updateCartBadge();
+
+      // Parallelize fetching for speed 🚀
+      await Promise.all([fetchCategories(), fetchProducts()]);
+
+      handleRoute();
+      window.addEventListener('hashchange', handleRoute);
+    }
+
+    async function handleRoute() {
+      const hash = window.location.hash || '#home';
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+
+      if (hash === '#home') {
+        document.getElementById('view-home').classList.add('active');
+      }
+      else if (hash === '#shop') {
+        document.getElementById('view-shop').classList.add('active');
+        // Reset to categories view if we go straight to #shop
+        if (currentShopCategory !== null) {
+          closeCategory();
+        }
+      }
+      else if (hash === '#cart') {
+        document.getElementById('view-cart').classList.add('active');
+        renderCart();
+      }
+      else if (hash === '#admin') {
+        document.getElementById('view-admin').classList.add('active');
+        if (adminToken === "Passw@rdcompanion$") {
+          document.getElementById('admin-login-panel').classList.add('hidden');
+          document.getElementById('admin-dashboard-panel').classList.remove('hidden');
+          renderFeatureStickers();
+          updateAdminCategoryDropdowns();
+        }
+      }
+      else if (hash.startsWith('#product-')) {
+        document.getElementById('view-product').classList.add('active');
+        const id = parseInt(hash.replace('#product-', ''));
+        await renderSingleProduct(id);
+      }
+      else if (hash === '#order-success') {
+        document.getElementById('view-order-success').classList.add('active');
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#00B4D8', '#90E0EF', '#CAF0F8']
+        });
+      }
+      else {
+        document.getElementById('view-home').classList.add('active');
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    // --- API CALLS ---
+    async function fetchCategories() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/categories`);
+        if (!response.ok) throw new Error("Categories backend not reachable");
+        categoriesList = await response.json();
+      } catch (error) {
+        console.error("API Error:", error);
+      }
+      renderCategoriesCards();
+      updateAdminCategoryDropdowns();
+    }
+
+    function updateAdminCategoryDropdowns() {
+      const datalist = document.getElementById('category-options');
+      const filterSelect = document.getElementById('admin-category-filter');
+
+      if (datalist) {
+        datalist.innerHTML = categoriesList.map(c => `<option value="${c.slug}">${c.name}</option>`).join('');
+      }
+      if (filterSelect) {
+        filterSelect.innerHTML = `<option value="">All Categories</option>` +
+          categoriesList.map(c => `<option value="${c.slug}">${c.name}</option>`).join('');
+      }
+
+      // Populate Discount Multiselect
+      renderDiscountCheckboxes();
+    }
+
+    function renderDiscountCheckboxes() {
+      const type = document.getElementById('discount-target-type').value;
+      const listContainer = document.getElementById('discount-checkbox-list');
+      const searchInput = `<div class="mb-2 px-1"><input type="text" placeholder="Search..." onkeyup="filterDiscountCheckboxes(this.value)" class="w-full px-2 py-1 text-xs border rounded outline-none focus:border-medical"></div>`;
+
+      if (!listContainer) return;
+
+      let html = '';
+      if (type === 'all') {
+        html = '<div class="px-2 py-1 text-xs text-gray-400">Apply to everything. No selection needed.</div>';
+        document.getElementById('discount-target-toggle').classList.add('opacity-50', 'pointer-events-none');
+        document.getElementById('discount-selected-text').innerText = "All Products";
+      } else {
+        document.getElementById('discount-target-toggle').classList.remove('opacity-50', 'pointer-events-none');
+        const items = type === 'category' ? categoriesList : products;
+
+        if (items.length === 0) {
+          html = '<div class="px-2 py-1 text-xs text-gray-400 italic">No items found.</div>';
+        } else {
+          html = searchInput;
+          items.forEach(item => {
+            const id = type === 'category' ? item.slug : item.id;
+            const name = item.name;
+            html += `
+              <label class="discount-checkbox-label flex items-center gap-2 px-2 py-1.5 hover:bg-gray-50 rounded cursor-pointer transition">
+                <input type="checkbox" name="discount-target" value="${id}" data-name="${name}" 
+                  class="discount-checkbox rounded border-gray-300 text-medical focus:ring-medical"
+                  onchange="updateSelectedDiscountText()">
+                <span class="text-sm text-gray-700">${name} ${type === 'product' ? `(#${id})` : ''}</span>
+              </label>
+            `;
+          });
+        }
+      }
+      listContainer.innerHTML = html;
+      updateSelectedDiscountText();
+      document.getElementById('discount-select-all').checked = false;
+    }
+
+    function filterDiscountCheckboxes(query) {
+      const q = query.toLowerCase();
+      const labels = document.querySelectorAll('.discount-checkbox-label');
+      labels.forEach(l => {
+        const text = l.innerText.toLowerCase();
+        l.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
+    function toggleDiscountDropdown() {
+      const dropdown = document.getElementById('discount-dropdown');
+      dropdown.classList.toggle('hidden');
+    }
+
+    function toggleSelectAllDiscounts(checked) {
+      const checkboxes = document.querySelectorAll('.discount-checkbox');
+      checkboxes.forEach(cb => cb.checked = checked);
+      updateSelectedDiscountText();
+    }
+
+    function updateSelectedDiscountText() {
+      const checkedArr = Array.from(document.querySelectorAll('.discount-checkbox:checked'));
+      const textEl = document.getElementById('discount-selected-text');
+      if (checkedArr.length === 0) {
+        textEl.innerText = "Select targets...";
+      } else if (checkedArr.length === 1) {
+        textEl.innerText = checkedArr[0].dataset.name;
+      } else {
+        textEl.innerText = `${checkedArr.length} items selected`;
+      }
+    }
+
+    // Close dropdown on outside click
+    window.addEventListener('click', (e) => {
+      const btn = document.getElementById('discount-target-toggle');
+      const dropdown = document.getElementById('discount-dropdown');
+      if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+
+
+
+
+    async function fetchProducts() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/products`);
+        if (!response.ok) throw new Error("Backend not reachable");
+        products = await response.json();
+      } catch (error) {
+        console.error("API Error:", error);
+        showToast("Database connection issue. Please check your internet.");
+      }
+      renderFeaturedProducts();
+      renderAdminProductList();
+      renderDiscountCheckboxes();
+    }
+
+    // --- HOME / FEATURED LOGIC ---
+    function renderFeaturedProducts() {
+      const grid = document.getElementById('featured-products-grid');
+      grid.innerHTML = '';
+
+      // 1. Featured Gear (Filter by is_featured)
+      const featured = products.filter(p => p.is_featured);
+
+      if (featured.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-4 text-gray-500">No featured products selected.</div>`;
+      } else {
+        featured.forEach(p => {
+          const card = createProductCardMarkup(p);
+          grid.appendChild(card);
+        });
+      }
+
+      // 2. Bundles & Packages (Filter by is_package_featured)
+      const bundleGrid = document.getElementById('bundles-grid');
+      const bundleSection = document.getElementById('bundles-section');
+      if (bundleGrid && bundleSection) {
+        bundleGrid.innerHTML = '';
+        const bundleItems = products.filter(p => p.is_package_featured);
+        if (bundleItems.length > 0) {
+          bundleSection.classList.remove('hidden');
+          bundleItems.forEach(p => {
+            const card = createProductCardMarkup(p);
+            bundleGrid.appendChild(card);
+          });
+        } else {
+          bundleSection.classList.add('hidden');
+        }
+      }
+
+      lucide.createIcons();
+    }
+
+    function renderCategoriesCards() {
+      const grid = document.getElementById('categories-grid-container');
+      if (!grid) return;
+      grid.innerHTML = '';
+      if (categoriesList.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-4 text-gray-500">No categories found.</div>`;
+        return;
+      }
+      categoriesList.forEach(c => {
+        const fallbackMap = { 'id_holder': 'contact', 'note': 'book-open', 'card': 'file-text', 'pen_holder': 'pen-tool', 'packages': 'gift' };
+        const fallbackColor = { 'id_holder': 'text-medical', 'note': 'text-accent', 'card': 'text-blue-500', 'pen_holder': 'text-yellow-500', 'packages': 'text-medical' };
+        const fallbackBg = { 'id_holder': 'bg-medical-light', 'note': 'bg-accent-light', 'card': 'bg-blue-100', 'pen_holder': 'bg-yellow-100', 'packages': 'bg-medical-light' };
+
+        let iconHtml;
+        if (fallbackMap[c.slug]) {
+          const fallbackIcon = fallbackMap[c.slug];
+          iconHtml = `<div class="w-24 h-24 ${fallbackBg[c.slug]} rounded-full flex items-center justify-center ${fallbackColor[c.slug]}"><i data-lucide="${fallbackIcon}" class="w-12 h-12"></i></div>`;
+        } else if (c.image_url) {
+          iconHtml = `<img src="${getOptimizedImageUrl(c.image_url, 400)}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://placehold.co/400x400/eee/999?text=Image'">`;
+        } else {
+          iconHtml = `<div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center text-gray-500"><i data-lucide="folder" class="w-12 h-12"></i></div>`;
+        }
+
+        grid.innerHTML += `
+            <div onclick="openCategory('${c.slug}', '${c.name.replace(/'/g, "\\'")}')"
+              class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition cursor-pointer group flex flex-col items-center p-8 text-center h-full">
+              <div class="w-24 h-24 rounded-full flex items-center justify-center mb-6 overflow-hidden bg-gray-50 border border-gray-100 group-hover:scale-110 transition-transform duration-300">
+                ${iconHtml}
+              </div>
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">${c.name}</h3>
+              <p class="text-sm text-gray-500">${c.description || ''}</p>
+            </div>
+        `;
+      });
+    }
+
+    // Helper to generate a standardized product card element
+    function createProductCardMarkup(p) {
+      const card = document.createElement('div');
+      card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition flex flex-col cursor-pointer group relative";
+      card.onclick = () => window.location.hash = `#product-${p.id}`;
+
+      const discountHtml = (p.discount_percentage && p.discount_percentage > 0)
+        ? `<div class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded shadow z-20">${p.discount_percentage}% OFF</div>`
+        : '';
+
+      const outOfStockHtml = (p.available === false)
+        ? `<div class="absolute inset-0 bg-white/70 flex items-center justify-center z-10 font-bold text-gray-800 rounded-xl pointer-events-none tracking-widest text-lg backdrop-blur-sm shadow-inner">OUT OF STOCK</div>`
+        : '';
+
+      const priceHtml = (p.discount_percentage && p.discount_percentage > 0)
+        ? `<span class="text-gray-400 line-through text-xs mr-2">${p.price}</span><span class="text-medical font-bold whitespace-nowrap">${(p.price * (1 - p.discount_percentage / 100)).toFixed(2)} EGP</span>`
+        : `<span class="text-medical font-bold ml-2 whitespace-nowrap">${p.price} EGP</span>`;
+
+      card.innerHTML = `
+                ${outOfStockHtml}
+                <div class="relative w-full h-48 bg-gray-50 overflow-hidden group rounded-t-xl">
+                    ${discountHtml}
+                    <img src="${getOptimizedImageUrl(p.image_url, 400)}" alt="${p.name}" loading="lazy" class="w-full h-full object-contain transition-transform duration-500 ${p.available === false ? 'opacity-40 grayscale' : 'group-hover:scale-110'} p-2" onerror="this.src='https://placehold.co/400x400/eee/999?text=Image'">
+                </div>
+                <div class="p-4 flex flex-col flex-grow relative z-20">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900 leading-tight">${p.name}</h3>
+                        <div class="flex items-center text-right">${priceHtml}</div>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-4 flex-grow line-clamp-2">${(p.description || '').split('\\n')[0]}</p>
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        ${parseFeatures(p.features).slice(0, 3).map(f => `<span class="text-[10px] bg-medical-light text-medical px-1.5 py-0.5 rounded flex items-center"><i data-lucide="${f.icon}" class="w-3 h-3 mr-1"></i>${f.text}</span>`).join('')}
+                    </div>
+                    <button onclick="event.stopPropagation(); addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${(p.price * (1 - (p.discount_percentage || 0) / 100)).toFixed(2)})" class="w-full ${p.available === false ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-medical-light text-medical-dark hover:bg-medical hover:text-white'} font-medium py-2 rounded-lg transition flex items-center justify-center gap-2 mt-auto" ${p.available === false ? 'disabled' : ''}>
+                        <i data-lucide="${p.available === false ? 'slash' : 'plus'}" class="w-4 h-4"></i> ${p.available === false ? 'Out of Stock' : 'Add'}
+                    </button>
+                </div>
+      `;
+      return card;
+    }
+
+    // --- SHOP & LIST LOGIC ---
+    function openCategory(catId, titleText) {
+      document.getElementById('shop-categories-view').classList.add('hidden');
+      document.getElementById('shop-products-view').classList.remove('hidden');
+      document.getElementById('current-category-title').innerText = titleText;
+
+      currentShopCategory = catId;
+      renderProducts(catId);
+    }
+
+    function closeCategory() {
+      document.getElementById('shop-categories-view').classList.remove('hidden');
+      document.getElementById('shop-products-view').classList.add('hidden');
+      currentShopCategory = null;
+    }
+
+    function renderProducts(categoryFilter) {
+      const grid = document.getElementById('products-grid');
+      grid.innerHTML = '';
+
+      const filtered = products.filter(p => p.category === categoryFilter);
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">No variants found in this category yet.</div>`;
+        return;
+      }
+
+      filtered.forEach(p => {
+        grid.appendChild(createProductCardMarkup(p));
+      });
+      lucide.createIcons();
+    }
+
+    function goBackToShop() {
+      window.location.hash = '#shop';
+      // If they came from a specific category, it will show categories again due to our route handling resetting `currentShopCategory = null`. If we wanted to preserve it, we'd add extra status logic.
+    }
+
+    // --- SINGLE PRODUCT LOGIC ---
+    async function renderSingleProduct(id) {
+      const container = document.getElementById('single-product-container');
+
+      if (products.length === 0) {
+        container.innerHTML = `
+                    <div class="text-center py-12">
+                        <i data-lucide="loader-2" class="w-8 h-8 animate-spin mx-auto text-medical mb-2"></i>
+                        <p class="text-gray-500">Loading details...</p>
+                    </div>
+                `;
+        await fetchProducts();
+      }
+
+      const product = products.find(p => p.id === id);
+
+      if (!product) {
+        container.innerHTML = `<div class="text-center py-12 text-gray-500 text-lg">Product not found. <br><br> <button onclick="goBackToShop()" class="text-medical font-bold underline">Browse all products</button></div>`;
+        return;
+      }
+
+      const isAvail = product.available !== false;
+      const discountPriceHtml = (product.discount_percentage && product.discount_percentage > 0)
+        ? `<span class="text-gray-400 line-through text-lg mr-3">${product.price} EGP</span> ${(product.price * (1 - product.discount_percentage / 100)).toFixed(2)}`
+        : `${product.price}`;
+
+      const discountBadge = (product.discount_percentage && product.discount_percentage > 0)
+        ? `<div class="absolute top-4 right-4 bg-red-500 text-white font-bold px-3 py-1 rounded-lg shadow-lg rotate-3 z-10">${product.discount_percentage}% OFF</div>` : '';
+
+      container.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-8 lg:gap-12 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 relative">
+                    ${discountBadge}
+                    <!-- Image -->
+                    <div class="md:w-1/2 flex flex-col">
+                        <div class="rounded-xl overflow-hidden bg-gray-50 border border-gray-100 p-6 flex items-center justify-center relative min-h-[400px]">
+                            <img id="main-product-image" src="${getOptimizedImageUrl(product.image_url, 800)}" alt="${product.name}" class="w-full h-auto max-w-sm object-contain ${isAvail ? '' : 'opacity-40 grayscale'} transition duration-300" onerror="this.src='https://placehold.co/600x600/eee/999?text=Image'">
+                            ${!isAvail ? `<div class="absolute inset-x-0 bottom-1/3 flex justify-center z-20"><div class="bg-gray-900 border-2 border-white text-white font-black text-2xl tracking-widest px-6 py-2 rounded-lg shadow-2xl backdrop-blur-md opacity-90 transform -rotate-6">OUT OF STOCK</div></div>` : ''}
+                        </div>
+                        
+                        <!-- Thumbnails Gallery -->
+                        ${product.images && product.images.length > 0 ? `
+                          <div id="img-thumbnail-gallery" class="flex gap-3 mt-4 overflow-x-auto pb-2 w-full justify-center">
+                            <div onclick="setMainImage('${product.image_url}', this)" class="w-16 h-16 rounded-xl border-2 border-medical overflow-hidden cursor-pointer flex-shrink-0 hover:scale-105 transition bg-white p-1 thumb-active">
+                              <img src="${getOptimizedImageUrl(product.image_url, 100)}" class="w-full h-full object-contain">
+                            </div>
+                            ${product.images.filter(url => url !== product.image_url).map((url, i) => `
+                              <div onclick="setMainImage('${url}', this)" class="w-16 h-16 rounded-xl border border-gray-200 overflow-hidden cursor-pointer flex-shrink-0 hover:border-medical hover:scale-105 transition bg-white p-1 opacity-70">
+                                <img src="${getOptimizedImageUrl(url, 100)}" class="w-full h-full object-contain">
+                              </div>
+                            `).join('')}
+                          </div>
+                        ` : ''}
+                    </div>
+                    <!-- Details -->
+                    <div class="md:w-1/2 flex flex-col">
+                        <nav class="flex text-sm text-gray-400 mb-4 gap-2 items-center">
+                            <button onclick="goBackToShop()" class="hover:text-medical transition">Shop</button>
+                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                            <span class="capitalize font-medium text-gray-600">${product.category.replace('_', ' ')}</span>
+                        </nav>
+                        
+                        <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-3 tracking-tight">${product.name}</h2>
+                        <div class="text-3xl font-bold text-medical mb-6">${discountPriceHtml} EGP</div>
+                        
+                        <div class="prose max-w-none text-gray-600 mb-8 flex-grow leading-relaxed">
+                            ${product.description ? product.description.split('\\n').map(line => `<p class="mb-3">${line}</p>`).join('') : '<p>No description available.</p>'}
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-4 mb-8">
+                            ${parseFeatures(product.features).map((f, i) => {
+        const rotations = ['-rotate-2', 'rotate-3', '-rotate-1', 'rotate-2', '-rotate-3', 'rotate-1'];
+        const rot = rotations[i % rotations.length];
+        const iconColorMap = {
+          'smile': 'text-amber-500', 'heart': 'text-rose-500', 'star': 'text-yellow-400',
+          'shield': 'text-indigo-500', 'droplets': 'text-blue-500', 'pocket': 'text-gray-500',
+          'zap': 'text-yellow-500', 'award': 'text-orange-500', 'sun': 'text-amber-400',
+          'check-circle': 'text-emerald-500', 'wind': 'text-sky-300', 'snowflake': 'text-blue-300',
+          'flame': 'text-orange-600', 'feather': 'text-teal-400', 'activity': 'text-rose-600',
+          'bookmark': 'text-purple-500', 'thumbs-up': 'text-blue-600'
+        };
+        const color = iconColorMap[f.icon] || 'text-medical';
+        return `
+                                <div class="bg-gray-100 border-[3px] border-white drop-shadow-md px-3 py-1.5 rounded-full flex items-center gap-2 transform transition-transform hover:scale-110 cursor-default ${rot}">
+                                    <div class="bg-white p-1.5 rounded-full ${color} shadow-sm shrink-0">
+                                        <i data-lucide="${f.icon}" class="w-4 h-4"></i>
+                                    </div>
+                                    <span class="text-sm font-extrabold text-gray-800 tracking-tight pr-1.5">${f.text}</span>
+                                </div>
+                                `;
+      }).join('')}
+                        </div>
+                        
+                        <div class="border-t border-gray-100 pt-8 mt-auto">
+                            ${isAvail
+          ? `<button onclick="addToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${(product.price * (1 - (product.discount_percentage || 0) / 100)).toFixed(2)})" class="w-full bg-medical text-white font-bold py-4 rounded-xl hover:bg-medical-dark transition-all transform hover:-translate-y-1 hover:shadow-xl flex justify-center items-center gap-2 text-lg">
+                                  <i data-lucide="shopping-bag" class="w-5 h-5"></i> Add to Cart
+                                 </button>`
+          : `<button disabled class="w-full bg-gray-300 text-gray-500 font-bold py-4 rounded-xl cursor-not-allowed flex justify-center items-center gap-2 text-lg border border-gray-400">
+                                  <i data-lucide="slash" class="w-5 h-5"></i> Out of Stock
+                                 </button>`
+        }
+                        </div>
+                    </div>
+                </div>
+        `;
+      lucide.createIcons();
+    }
+
+    function setMainImage(url, thumbEl) {
+      const mainImg = document.getElementById('main-product-image');
+      if (mainImg) {
+        mainImg.src = getOptimizedImageUrl(url, 800);
+      }
+      // Update active state in gallery
+      document.querySelectorAll('#img-thumbnail-gallery .cursor-pointer').forEach(el => {
+        el.classList.remove('border-2', 'border-medical', 'thumb-active', 'scale-105');
+        el.classList.add('border', 'border-gray-200', 'opacity-70');
+      });
+      thumbEl.classList.add('border-2', 'border-medical', 'thumb-active', 'scale-105');
+      thumbEl.classList.remove('border', 'border-gray-200', 'opacity-70');
+    }
+
+    // --- CART LOGIC ---
+    function addToCart(id, name, price) {
+      const existing = cart.find(i => i.id === id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ id, name, price, quantity: 1 });
+      }
+      saveCart();
+      showToast(`Added ${name} to cart!`);
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id);
+      saveCart();
+      renderCart();
+    }
+
+    function changeQuantity(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) removeFromCart(id);
+        else { saveCart(); renderCart(); }
+      }
+    }
+
+    function saveCart() {
+      localStorage.setItem('companion_cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-badge');
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      if (total > 0) {
+        badge.innerText = total;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cart-items-container');
+      const emptyMsg = document.getElementById('empty-cart-msg');
+      const formPanel = document.getElementById('checkout-panel');
+      const successPanel = document.getElementById('order-success');
+
+      successPanel.classList.add('hidden');
+
+      if (cart.length === 0) {
+        container.innerHTML = '';
+        emptyMsg.classList.remove('hidden');
+        formPanel.classList.add('hidden');
+        document.getElementById('proceed-checkout-btn-contain').classList.add('hidden');
+        return;
+      }
+
+      emptyMsg.classList.add('hidden');
+      document.getElementById('proceed-checkout-btn-contain').classList.remove('hidden');
+      formPanel.classList.add('hidden');
+      container.innerHTML = '';
+
+      let total = 0;
+
+      cart.forEach(item => {
+        total += (item.price * item.quantity);
+        const fullProduct = products.find(p => p.id === item.id);
+        const catText = fullProduct && fullProduct.category ? fullProduct.category.replace('_', ' ') : '';
+
+        const div = document.createElement('div');
+        div.className = "flex items-center justify-between bg-white p-4 rounded-xl shadow-sm border border-gray-100";
+        div.innerHTML = `
+          <div class="flex-grow pr-4">
+            <h4 class="font-bold text-gray-800 leading-tight">${item.name}</h4>
+            <div class="text-xs text-gray-400 capitalize mb-1 mt-0.5">${catText}</div>
+            <div class="text-medical font-bold text-sm bg-medical-light inline-block px-2 py-0.5 rounded">${item.price} EGP</div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
+            <button onclick="changeQuantity(${item.id}, -1)" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition">-</button>
+            <span class="w-8 text-center font-bold text-sm">${item.quantity}</span>
+            <button onclick="changeQuantity(${item.id}, 1)" class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition">+</button>
+          </div>
+          <button onclick="removeFromCart(${item.id})" class="text-gray-300 hover:text-red-500 p-2 transition bg-gray-50 hover:bg-red-50 rounded-lg">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+                `;
+        container.appendChild(div);
+      });
+      document.getElementById('cart-total').innerText = `${total} EGP`;
+      lucide.createIcons();
+    }
+
+    // --- CHECKOUT SUBMISSION ---
+    document.getElementById('checkout-form').addEventListener('submit', function (e) {
+      const itemsText = cart.map(i => `${i.name} x${i.quantity} (${i.price} EGP)`).join('\n');
+      const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+      document.getElementById('form-order-items').value = `ITEMS:\n${itemsText}\n\nTOTAL: ${total} EGP`;
+
+      // set redirect url
+      document.getElementById('form-next-url').value = window.location.href.split('#')[0] + "#order-success";
+
+      showToast("Sending order...");
+
+      cart = [];
+      saveCart();
+    });
+
+    // --- ADMIN LOGIC ---
+    const ADMIN_PASS = "Passw@rdcompanion$";
+
+    function checkAdmin() {
+      const input = document.getElementById('admin-pass-input');
+      const entered = input.value;
+      if (entered === ADMIN_PASS || adminToken === ADMIN_PASS) {
+        adminToken = entered || adminToken;
+        sessionStorage.setItem('adminToken', adminToken);
+        document.getElementById('admin-login-panel').classList.add('hidden');
+        document.getElementById('admin-dashboard-panel').classList.remove('hidden');
+        updateLivePreview();
+        renderFeatureStickers();
+      } else {
+        input.classList.add('border-red-500', 'bg-red-50');
+        input.value = '';
+        input.placeholder = '❌ Wrong password - try again';
+        setTimeout(() => {
+          input.classList.remove('border-red-500', 'bg-red-50');
+          input.placeholder = 'Enter admin password...';
+        }, 2000);
+      }
+    }
+
+    // Image staging system: preview locally, upload on Save
+    let stagedImageFiles = [];  // raw File objects waiting to upload
+    let uploadedImageUrls = []; // final Cloudinary URLs (or blob URLs in dev)
+
+    function renderThumbnails() {
+      const thumbsEl = document.getElementById('img-thumbnails');
+      const primaryUrl = document.getElementById('add-img-primary').value;
+      let html = '';
+
+      uploadedImageUrls.forEach(url => {
+        const isPrimary = url === primaryUrl;
+        html += `
+          <div class="relative group cursor-pointer drop-shadow-sm" onclick="setPrimaryImage('${url}')">
+            <img src="${url}" class="w-16 h-16 rounded-lg object-cover border-2 transition ${isPrimary ? 'border-medical scale-105' : 'border-gray-200 hover:border-gray-400'}">
+            <button type="button" onclick="event.stopPropagation(); removeUploadedImage('${url}')" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white w-4 h-4 rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition">×</button>
+            ${isPrimary ? '<span class="absolute -bottom-1 left-0 w-full text-[9px] text-center bg-medical text-white rounded">Primary</span>' : ''}
+            ${!isPrimary ? '<div class="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-[9px] text-white font-bold text-center">Make<br>Primary</span></div>' : ''}
+          </div>
+        `;
+      });
+
+      stagedImageFiles.forEach(s => {
+        const isPrimary = s.localUrl === primaryUrl;
+        html += `
+          <div class="relative group cursor-pointer drop-shadow-sm" onclick="setPrimaryImage('${s.localUrl}')">
+            <img src="${s.localUrl}" class="w-16 h-16 rounded-lg object-cover border-2 transition ${isPrimary ? 'border-medical scale-105' : 'border-gray-200 hover:border-gray-400'}">
+            <button type="button" onclick="event.stopPropagation(); removeStagedImage('${s.localUrl}')" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white w-4 h-4 rounded-full text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition">×</button>
+            ${isPrimary ? '<span class="absolute -bottom-1 left-0 w-full text-[9px] text-center bg-medical text-white rounded">Primary</span>' : ''}
+            ${!isPrimary ? '<div class="absolute inset-0 bg-black bg-opacity-40 rounded-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition"><span class="text-[9px] text-white font-bold text-center">Make<br>Primary</span></div>' : ''}
+          </div>
+        `;
+      });
+
+      thumbsEl.innerHTML = html;
+    }
+
+    function setPrimaryImage(url) {
+      document.getElementById('add-img-primary').value = url;
+      renderThumbnails();
+      updateLivePreview();
+    }
+
+    function stageImages(files) {
+      if (!files || files.length === 0) return;
+      for (const file of files) {
+        const localUrl = URL.createObjectURL(file);
+        stagedImageFiles.push({ file, localUrl });
+      }
+      if (!document.getElementById('add-img-primary').value && stagedImageFiles.length > 0) {
+        document.getElementById('add-img-primary').value = stagedImageFiles[0].localUrl;
+      }
+      renderThumbnails();
+      updateLivePreview();
+    }
+
+    function removeStagedImage(localUrl) {
+      stagedImageFiles = stagedImageFiles.filter(s => s.localUrl !== localUrl);
+      if (document.getElementById('add-img-primary').value === localUrl) {
+        document.getElementById('add-img-primary').value = uploadedImageUrls[0] || stagedImageFiles[0]?.localUrl || '';
+      }
+      renderThumbnails();
+      updateLivePreview();
+    }
+
+    function removeUploadedImage(url) {
+      uploadedImageUrls = uploadedImageUrls.filter(u => u !== url);
+      if (document.getElementById('add-img-primary').value === url) {
+        document.getElementById('add-img-primary').value = uploadedImageUrls[0] || stagedImageFiles[0]?.localUrl || '';
+      }
+      renderThumbnails();
+      updateLivePreview();
+    }
+
+    async function uploadAllStagedImages() {
+      // If no backend, use local blob URLs as fallback
+      if (API_BASE_URL === '') {
+        const localUrls = stagedImageFiles.map(s => s.localUrl);
+        uploadedImageUrls = [...uploadedImageUrls, ...localUrls];
+        stagedImageFiles = [];
+        return;
+      }
+
+      const btn = document.getElementById('add-product-btn');
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Uploading images...`;
+      lucide.createIcons();
+
+      for (const { file } of stagedImageFiles) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const resp = await fetch(`${API_BASE_URL}/admin/upload`, {
+          method: 'POST',
+          headers: { 'x-admin-token': adminToken },
+          body: formData,
+        });
+        if (!resp.ok) throw new Error('Image upload failed for: ' + file.name);
+        const data = await resp.json();
+        uploadedImageUrls.push(data.url);
+      }
+      stagedImageFiles = [];
+    }
+
+    let featureStickersList = [];
+    const availableIcons = ['smile', 'heart', 'star', 'shield', 'droplets', 'pocket', 'zap', 'award', 'sun', 'check-circle', 'wind', 'snowflake', 'flame', 'feather', 'activity', 'bookmark', 'thumbs-up'];
+
+    function toggleSticker(icon) {
+      const existing = featureStickersList.find(f => f.icon === icon);
+      if (existing) {
+        featureStickersList = featureStickersList.filter(f => f.icon !== icon);
+      } else {
+        if (featureStickersList.length >= 6) {
+          showToast("Maximum 6 stickers allowed.");
+          return;
+        }
+        featureStickersList.push({ id: Date.now(), icon: icon, text: '' });
+      }
+      renderFeatureStickers();
+      updateLivePreview();
+    }
+
+    function updateStickerText(icon, text) {
+      const f = featureStickersList.find(x => x.icon === icon);
+      if (f) f.text = text;
+      updateLivePreview();
+    }
+
+    function renderFeatureStickers() {
+      const container = document.getElementById('feature-stickers-container');
+
+      let gridHtml = '<div class="flex flex-wrap gap-2 mb-4">';
+      availableIcons.forEach(icon => {
+        const isSelected = featureStickersList.some(f => f.icon === icon);
+        const btnClass = isSelected
+          ? "p-2 rounded-lg border-2 border-medical bg-medical-light text-medical-dark transition transform scale-105"
+          : "p-2 rounded-lg border border-gray-200 bg-white text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition";
+
+        gridHtml += `<button type="button" onclick="toggleSticker('${icon}')" class="${btnClass}"><i data-lucide="${icon}" class="w-5 h-5"></i></button>`;
+      });
+      gridHtml += '</div>';
+
+      let inputsHtml = '<div class="space-y-3">';
+      if (featureStickersList.length === 0) {
+        inputsHtml += '<div class="text-xs text-gray-400 italic">Select an icon above to add a sticker. Max 6.</div>';
+      } else {
+        const iconColorMap = {
+          'smile': 'text-amber-500', 'heart': 'text-rose-500', 'star': 'text-yellow-400',
+          'shield': 'text-indigo-500', 'droplets': 'text-blue-500', 'pocket': 'text-gray-500',
+          'zap': 'text-yellow-500', 'award': 'text-orange-500', 'sun': 'text-amber-400',
+          'check-circle': 'text-emerald-500', 'wind': 'text-sky-300', 'snowflake': 'text-blue-300',
+          'flame': 'text-orange-600', 'feather': 'text-teal-400', 'activity': 'text-rose-600',
+          'bookmark': 'text-purple-500', 'thumbs-up': 'text-blue-600'
+        };
+
+        featureStickersList.forEach(f => {
+          const color = iconColorMap[f.icon] || 'text-medical';
+          inputsHtml += `
+            <div class="flex gap-3 items-center bg-gray-50 border border-gray-200 p-2 rounded-lg">
+                <div class="bg-white p-1.5 rounded-md shadow-sm ${color}">
+                    <i data-lucide="${f.icon}" class="w-5 h-5"></i>
+                </div>
+                <input type="text" placeholder="Short text for this sticker..." value="${f.text}" onkeyup="updateStickerText('${f.icon}', this.value)" class="w-full px-3 py-1.5 border rounded-md bg-white text-sm outline-none focus:border-medical">
+                <button type="button" onclick="toggleSticker('${f.icon}')" class="text-red-400 hover:text-red-600 p-1 rounded-md transition"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+            </div>
+            `;
+        });
+      }
+      inputsHtml += '</div>';
+
+      container.innerHTML = gridHtml + inputsHtml;
+      lucide.createIcons();
+    }
+
+    function updateLivePreview() {
+      const p = {
+        id: 999,
+        name: document.getElementById('add-name').value || "Preview Product",
+        category: document.getElementById('add-cat').value || "category",
+        price: document.getElementById('add-price').value || 0,
+        description: document.getElementById('add-desc').value || "Product description will appear here.",
+        image_url: document.getElementById('add-img-primary').value || ""
+      };
+      // Keep it simple for generic single product view
+      const grid = document.getElementById('live-preview-card');
+      if (grid) {
+        grid.innerHTML = '';
+        grid.className = '';
+        grid.appendChild(createProductCardMarkup(p));
+        lucide.createIcons();
+      }
+    }
+
+    document.getElementById('admin-product-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('add-product-btn');
+      const originalContent = btn.innerHTML;
+      lucide.createIcons();
+
+      try {
+        // Step 1: upload any staged images to Cloudinary
+        await uploadAllStagedImages();
+
+        const primaryUrl = uploadedImageUrls[0] || document.getElementById('add-img-primary').value || '';
+
+        const productData = {
+          name: document.getElementById('add-name').value,
+          category: document.getElementById('add-cat').value,
+          price: parseFloat(document.getElementById('add-price').value),
+          image_url: primaryUrl,
+          images: [...uploadedImageUrls],
+          description: document.getElementById('add-desc').value,
+          available: document.getElementById('add-available').checked,
+          is_featured: document.getElementById('add-featured').checked,
+          is_package_featured: document.getElementById('add-package-featured').checked,
+          discount_percentage: editingProductId ? (products.find(p => p.id === editingProductId)?.discount_percentage || 0) : 0,
+          features: featureStickersList.map(f => ({ icon: f.icon, text: f.text }))
+        };
+
+        btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> <span id="add-product-btn-text">Saving...</span>`;
+        lucide.createIcons();
+        const method = editingProductId ? 'PUT' : 'POST';
+        const endpoint = editingProductId ? `${API_BASE_URL}/admin/product/${editingProductId}` : `${API_BASE_URL}/admin/product`;
+
+        if (API_BASE_URL !== "") {
+          const response = await fetch(endpoint, {
+            method: method,
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-token': adminToken
+            },
+            body: JSON.stringify(productData)
+          });
+          if (!response.ok) throw new Error("Unauthorized or failed");
+        } else {
+          // Dev fallback simulation
+          if (editingProductId) {
+            const idx = products.findIndex(x => x.id === editingProductId);
+            if (idx !== -1) products[idx] = { id: editingProductId, ...productData };
+          } else {
+            products.push({ id: Date.now(), ...productData });
+          }
+        }
+
+        showToast(editingProductId ? "Product updated!" : "Product added!");
+        cancelEditAdminProduct();
+        fetchProducts();
+      } catch (err) {
+        alert("Failed to save product. Error: " + err.message);
+        console.error(err);
+      } finally {
+        btn.innerHTML = originalContent;
+        lucide.createIcons();
+      }
+    });
+
+    let editingProductId = null;
+
+    function renderAdminProductList() {
+      const container = document.getElementById('admin-product-list');
+      const countEl = document.getElementById('admin-p-count');
+      if (!container) return;
+
+      const searchQ = (document.getElementById('admin-search-input')?.value || '').toLowerCase();
+      const catFilter = document.getElementById('admin-category-filter')?.value;
+
+      let filteredProducts = products.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(searchQ) || (p.description && p.description.toLowerCase().includes(searchQ));
+        const matchesCat = !catFilter || p.category === catFilter;
+        return matchesSearch && matchesCat;
+      });
+
+      countEl.innerText = `(${filteredProducts.length} Items)`;
+      container.innerHTML = '';
+
+      if (filteredProducts.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-gray-400 bg-white rounded-xl border border-dashed border-gray-200">No products found matching "${searchQ}"</div>`;
+        return;
+      }
+
+      const grouped = {};
+      filteredProducts.forEach(p => {
+        if (!grouped[p.category]) grouped[p.category] = [];
+        grouped[p.category].push(p);
+      });
+
+      for (let cat in grouped) {
+        const categoryBlock = document.createElement('div');
+        const catName = cat.replace('_', ' ');
+        categoryBlock.innerHTML = `
+          <h4 class="text-xl font-bold text-gray-900 capitalize mb-4 flex items-center gap-2">
+            <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded-md">${grouped[cat].length}</span>
+            ${catName}
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 category-grid"></div>
+        `;
+        container.appendChild(categoryBlock);
+
+        const catGrid = categoryBlock.querySelector('.category-grid');
+
+        grouped[cat].forEach(p => {
+          const div = document.createElement('div');
+          div.className = "flex flex-col gap-3 bg-white p-4 rounded-xl border border-gray-100 shadow-sm transition hover:shadow-md";
+          div.innerHTML = `
+            <div class="flex items-center gap-3">
+              <img src="${getOptimizedImageUrl(p.image_url, 120)}" class="w-14 h-14 rounded-lg object-cover bg-gray-50 shrink-0 border border-gray-100" loading="lazy" onerror="this.src='https://placehold.co/400?text=App'">
+              <div class="flex-1 min-w-0">
+                <h4 class="font-bold text-sm text-gray-800 leading-tight mb-0.5 truncate">${p.name}</h4>
+                <div class="flex gap-1 mb-1 items-center">
+                  ${p.is_featured ? '<i data-lucide="star" class="w-3 h-3 text-orange-500 fill-orange-500"></i>' : ''}
+                  ${p.is_package_featured ? '<i data-lucide="gift" class="w-3 h-3 text-medical"></i>' : ''}
+                  ${p.available === false ? '<span class="text-[9px] bg-red-50 text-red-500 px-1 rounded font-black uppercase">Out</span>' : ''}
+                  <span class="text-xs text-medical font-bold ml-auto">${p.price} EGP</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2 mt-auto pt-3 border-t border-gray-50">
+              <button type="button" onclick="editAdminProduct(${p.id})" class="flex-1 py-1.5 px-2 flex justify-center items-center gap-1.5 bg-gray-50 hover:bg-medical hover:text-white text-gray-600 rounded text-xs font-semibold transition"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit</button>
+              <button type="button" onclick="deleteAdminProduct(${p.id})" class="flex-1 py-1.5 px-2 flex justify-center items-center gap-1.5 bg-red-50 hover:bg-red-500 hover:text-white text-red-500 rounded text-xs font-semibold transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Delete</button>
+            </div>
+          `;
+          catGrid.appendChild(div);
+        });
+      }
+      lucide.createIcons();
+    }
+
+    function editAdminProduct(id, event) {
+      const p = products.find(x => x.id === id);
+      if (!p) return;
+      editingProductId = p.id;
+      document.getElementById('add-name').value = p.name;
+      document.getElementById('add-cat').value = p.category;
+      document.getElementById('add-price').value = p.price;
+      document.getElementById('add-available').checked = p.available !== false;
+      document.getElementById('add-featured').checked = p.is_featured || false;
+      document.getElementById('add-package-featured').checked = p.is_package_featured || false;
+
+      // Pre-fill images for editing
+      uploadedImageUrls = (p.images && p.images.length > 0) ? [...p.images] : (p.image_url ? [p.image_url] : []);
+      document.getElementById('add-img-primary').value = p.image_url || uploadedImageUrls[0] || '';
+      renderThumbnails();
+      document.getElementById('add-desc').value = p.description || "";
+
+      featureStickersList = p.features ? JSON.parse(JSON.stringify(p.features)) : [];
+      renderFeatureStickers();
+
+      document.getElementById('add-product-btn-text').innerText = "Save Changes";
+      document.getElementById('cancel-edit-btn').classList.remove('hidden');
+      updateLivePreview();
+      checkCategoryForPackages();
+      window.scrollTo(0, 0);
+    }
+
+    function checkCategoryForPackages() {
+      const cat = document.getElementById('add-cat').value;
+      const wrapper = document.getElementById('package-featured-wrapper');
+      if (cat === 'packages') {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+        document.getElementById('add-package-featured').checked = false;
+      }
+    }
+
+    function cancelEditAdminProduct() {
+      editingProductId = null;
+      document.getElementById('admin-product-form').reset();
+      document.getElementById('add-available').checked = true;
+      document.getElementById('add-featured').checked = false;
+      document.getElementById('add-package-featured').checked = false;
+      uploadedImageUrls = [];
+      stagedImageFiles = [];
+      document.getElementById('add-img-primary').value = '';
+      renderThumbnails();
+      featureStickersList = [];
+      renderFeatureStickers();
+      document.getElementById('add-product-btn-text').innerText = "Add Product";
+      document.getElementById('cancel-edit-btn').classList.add('hidden');
+      updateLivePreview();
+      checkCategoryForPackages();
+    }
+
+    // --- Admin Categories & Discounts ---
+
+
+
+
+    async function applyDiscountBatch() {
+      const type = document.getElementById('discount-target-type').value;
+      const pct = parseInt(document.getElementById('discount-percentage').value) || 0;
+
+      let targetIds = [];
+      if (type === 'all') {
+        targetIds = ['all'];
+      } else {
+        targetIds = Array.from(document.querySelectorAll('.discount-checkbox:checked')).map(cb => cb.value);
+      }
+
+      if (targetIds.length === 0) {
+        showToast("Please select at least one target.", "bg-orange-500");
+        return;
+      }
+
+      const payload = {
+        target_type: type,
+        target_ids: targetIds,
+        discount_percentage: pct
+      };
+
+      try {
+        const res = await fetch(`${API_BASE_URL}/admin/discount/apply`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-token': adminToken
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error("Failed to apply discount");
+        showToast("✅ Discount applied successfully!");
+        document.getElementById('admin-discount-form').reset();
+        renderDiscountCheckboxes();
+        fetchProducts();
+      } catch (err) {
+        showToast("❌ Admin Error: " + err.message, "bg-red-600");
+      }
+    }
+
+    async function deleteAdminProduct(id) {
+      if (!confirm("Are you sure you want to delete this product?")) return;
+      try {
+        if (API_BASE_URL !== "") {
+          const res = await fetch(`${API_BASE_URL}/admin/product/${id}`, {
+            method: 'DELETE',
+            headers: { 'x-admin-token': adminToken }
+          });
+          if (!res.ok) throw new Error("Failed to delete");
+        } else {
+          // Local fallback simulation
+          products = products.filter(x => x.id !== id);
+        }
+        showToast("Product deleted.");
+        fetchProducts();
+      } catch (err) {
+        alert("Could not delete product. Check connection or password.");
+      }
+    }
+
+    // --- UTILS ---
+    function showToast(msg, bgColor = "bg-gray-900") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+
+      // Remove any existing bg classes
+      toast.className = toast.className.replace(/bg-\w+-\d+/g, "").trim();
+      toast.classList.add(bgColor);
+
+      toastMsg.innerText = msg;
+      toast.classList.remove('translate-x-full');
+      setTimeout(() => toast.classList.add('translate-x-full'), 3500);
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: companion-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    envVars:
+      - key: DATABASE_URL
+        sync: false   # set manually in Render dashboard
+      - key: RESEND_API_KEY
+        sync: false
+      - key: OWNER_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+
+  - type: static
+    name: companion-frontend
+    rootDir: frontend
+    publishDir: .
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
