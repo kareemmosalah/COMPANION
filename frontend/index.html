@@ -456,12 +456,98 @@
                   </div>
                   <input type="hidden" name="payment_method" value="Cash on Delivery">
                 </div>
-                <button type="submit" id="submit-order-btn"
+                <button type="button" id="review-order-btn" onclick="prepareOrderReview()"
                   class="w-full bg-medical hover:bg-medical-dark text-white font-bold py-3 rounded-lg shadow-md transition flex justify-center items-center gap-2">
-                  <i data-lucide="check-circle" class="w-5 h-5"></i> Place Order
+                  <i data-lucide="eye" class="w-5 h-5"></i> Review Order
                 </button>
               </form>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ORDER REVIEW (RECEIPT) VIEW -->
+    <div id="view-order-review" class="view-section">
+      <div class="max-w-2xl mx-auto px-4 py-8">
+        <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+          <!-- Receipt Header -->
+          <div class="bg-gray-900 text-white p-8 text-center relative">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+              style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+            <h2 class="text-3xl font-black tracking-tighter flex items-center justify-center gap-2 mb-2">
+              <i data-lucide="stethoscope" class="text-accent"></i> COMPANION
+            </h2>
+            <p class="text-gray-400 text-sm uppercase tracking-widest font-bold">Order Review & Receipt</p>
+          </div>
+
+          <div class="p-8">
+            <!-- Items Section -->
+            <div class="mb-8">
+              <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                <i data-lucide="shopping-basket" class="w-4 h-4"></i> Your Basket
+              </h3>
+              <div id="review-items-list" class="space-y-3">
+                <!-- Injected via JS -->
+              </div>
+              <div
+                class="border-t-2 border-dashed border-gray-100 mt-4 pt-4 flex justify-between items-center font-black text-2xl text-gray-900">
+                <span>Total Amount:</span>
+                <span id="review-total-price" class="text-medical">-- EGP</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <!-- Customer Info -->
+              <div>
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <i data-lucide="user" class="w-4 h-4"></i> Delivery Details
+                </h3>
+                <div class="space-y-2 text-gray-700">
+                  <p><span class="text-gray-400 text-xs block mb-0.5">FULL NAME</span> <span id="review-name"
+                      class="font-bold">--</span></p>
+                  <p><span class="text-gray-400 text-xs block mb-0.5">PHONE</span> <span id="review-phone"
+                      class="font-bold">--</span></p>
+                  <p><span class="text-gray-400 text-xs block mb-0.5">WHATSAPP</span> <span id="review-whatsapp"
+                      class="font-bold">--</span></p>
+                </div>
+              </div>
+              <!-- Address -->
+              <div>
+                <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <i data-lucide="map-pin" class="w-4 h-4"></i> Shipping Address
+                </h3>
+                <p id="review-address" class="text-gray-700 leading-relaxed font-bold">--</p>
+              </div>
+            </div>
+
+            <!-- Payment Info -->
+            <div class="bg-medical/5 border border-medical/20 p-4 rounded-2xl mb-8 flex items-center gap-3">
+              <div class="w-10 h-10 bg-medical text-white rounded-full flex items-center justify-center shrink-0">
+                <i data-lucide="banknote" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <p class="text-medical-dark font-bold">Cash on Delivery</p>
+                <p class="text-gray-500 text-xs">Pay when your order arrives at your doorstep.</p>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button onclick="window.location.hash='#cart'"
+                class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-4 rounded-2xl transition flex items-center justify-center gap-2">
+                <i data-lucide="edit-3" class="w-5 h-5"></i> Edit Details
+              </button>
+              <button onclick="submitFinalOrder()"
+                class="flex-[1.5] bg-medical hover:bg-medical-dark text-white font-black py-4 rounded-2xl transition shadow-xl shadow-medical/20 flex items-center justify-center gap-2 transform hover:scale-[1.02] active:scale-95">
+                <i data-lucide="check-circle" class="w-6 h-6"></i> Confirm & Place Order
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Decoration -->
+          <div class="bg-gray-50 p-4 text-center text-gray-400 text-xs border-t border-gray-100">
+            Please verify all information before confirming.
           </div>
         </div>
       </div>
@@ -799,6 +885,10 @@
         document.getElementById('view-product').classList.add('active');
         const id = parseInt(hash.replace('#product-', ''));
         await renderSingleProduct(id);
+      }
+      else if (hash === '#order-review') {
+        document.getElementById('view-order-review').classList.add('active');
+        renderOrderReview();
       }
       else if (hash === '#order-success') {
         document.getElementById('view-order-success').classList.add('active');
@@ -1320,8 +1410,58 @@
       lucide.createIcons();
     }
 
-    // --- CHECKOUT SUBMISSION ---
-    document.getElementById('checkout-form').addEventListener('submit', function (e) {
+    // --- CHECKOUT & REVIEW FLOW ---
+    function prepareOrderReview() {
+      // Basic Validation
+      const name = document.getElementById('order-name').value;
+      const phone = document.getElementById('order-phone').value;
+      const whatsapp = document.getElementById('order-whatsapp').value;
+      const address = document.getElementById('order-address').value;
+
+      if (!name || !phone || !whatsapp || !address) {
+        showToast("Please fill in all delivery details.");
+        return;
+      }
+
+      window.location.hash = '#order-review';
+    }
+
+    function renderOrderReview() {
+      const name = document.getElementById('order-name').value;
+      const phone = document.getElementById('order-phone').value;
+      const whatsapp = document.getElementById('order-whatsapp').value;
+      const address = document.getElementById('order-address').value;
+
+      document.getElementById('review-name').innerText = name;
+      document.getElementById('review-phone').innerText = phone;
+      document.getElementById('review-whatsapp').innerText = whatsapp;
+      document.getElementById('review-address').innerText = address;
+
+      const listContainer = document.getElementById('review-items-list');
+      listContainer.innerHTML = '';
+      let total = 0;
+
+      cart.forEach(item => {
+        total += (item.price * item.quantity);
+        const itemRow = document.createElement('div');
+        itemRow.className = "flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100";
+        itemRow.innerHTML = `
+          <div class="flex flex-col">
+            <span class="font-bold text-gray-800">${item.name}</span>
+            <span class="text-xs text-gray-400">Qty: ${item.quantity} × ${item.price} EGP</span>
+          </div>
+          <div class="font-black text-medical">${item.price * item.quantity} EGP</div>
+        `;
+        listContainer.appendChild(itemRow);
+      });
+
+      document.getElementById('review-total-price').innerText = `${total} EGP`;
+      lucide.createIcons();
+    }
+
+    function submitFinalOrder() {
+      const form = document.getElementById('checkout-form');
+
       const itemsText = cart.map(i => `${i.name} x${i.quantity} (${i.price} EGP)`).join('\n');
       const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
       document.getElementById('form-order-items').value = `ITEMS:\n${itemsText}\n\nTOTAL: ${total} EGP`;
@@ -1329,10 +1469,22 @@
       // set redirect url
       document.getElementById('form-next-url').value = window.location.href.split('#')[0] + "#order-success";
 
-      showToast("Sending order...");
+      showToast("Launching your order...");
 
+      // Submit the real form
+      form.submit();
+
+      // Clear cart
       cart = [];
       saveCart();
+    }
+
+    // Prevent default form behavior if somehow triggered
+    document.getElementById('checkout-form').addEventListener('submit', function (e) {
+      if (window.location.hash !== '#order-review') {
+        e.preventDefault();
+        prepareOrderReview();
+      }
     });
 
     // --- ADMIN LOGIC ---
